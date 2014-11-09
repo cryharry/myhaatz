@@ -34,6 +34,12 @@
 	function change_back(liId) {
 		$('.img_area03').css({"background-image":"url(img/main/imgarea03_back_"+liId+".png)"});
 	}
+	function ajax_search(search) {
+		$.post("bbs/checkSearch.jsp?",{"search":search},function(data){
+			$('#search_ajax').show();
+			$('#search_ajax').html(data);
+		});
+	}
 </script>
 </head>
 <body>
@@ -198,7 +204,7 @@
 					<div style="border: 1px solid #ddd;">
 						<input type="hidden" name="sfl" value="wr_subject">
 						<input type="text" name="stx" id="search" class="select" onkeyup="ajax_search(this.value)">
-						<input type="image" src="img/head/sea_icon01.jpg">
+						<input type="image" src="img/head/sea_icon01.jpg" onclick="">
 					</div>
 					<div id="search_ajax"></div>
 				</form>

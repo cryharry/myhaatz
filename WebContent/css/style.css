@@ -362,5 +362,5 @@ td,th {padding: 0;}
 .none{display:none}
 
 #div_menu{display: none; position: relative; z-index: 1000; background-color: #fff;}
-#search_ajax{display: none; height:50px; border:1px solid #efefef;}
+#search_ajax{display: none; height:50px; border:1px solid #efefef; background-color: #fff; position:relative; z-index: 1000;}
 #txtGender{width: 10px; height:10px;}

@@ -21,23 +21,10 @@ function onlyNum_han(obj) {
 	obj.value = obj.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g,'');
 }
 
-function idcheck() {
-	if(AJAX.readyState == 4 && AJAX.status == 200) {
-	    // AJAX success시 결과값 result라는 변수에 저장
-	    result = AJAX.responseText;
-	    idCheckValue = true;
-	    $('#id_span').html(result);
-	    // result값을 호출한 곳으로 돌려줌
-	}else if (AJAX.readyState == 4 && AJAX.status != 200) {
-		// AJAX status fail
-	  	alert('Something went wrong...');
-	}
-}
-
 function oncheckid(id) {
-	AJAX.onreadystatechange = idcheck;
-	AJAX.open("POST", "checkId.jsp?id="+id, true);
-	AJAX.send();
+	$.post("checkId.jsp?",{"id":id},function(data){
+		$('#id_span').html(data);
+	});
 }
 
 function openDaumPostcode() {

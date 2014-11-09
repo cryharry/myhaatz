@@ -16,14 +16,12 @@
 	    conn = ds.getConnection();
 	    sql = "SELECT subject FROM BOARD WHERE subject like ?";
 	    pstmt = conn.prepareStatement(sql);
-	    /* pstmt.setString(1, "%"+search+"%"); */
+	    pstmt.setString(1, "%"+search+"%");
 	    
 	    rs = pstmt.executeQuery();
 	    
 	    while(rs.next()) {
-	    	JSONObject json = new JSONObject();
-	    	json.put("subject", rs.getString("subject"));
-	    	out.println(json);
+	    	out.println(rs.getString("subject")+"<br>");
 	    }
 	    
         out.flush();

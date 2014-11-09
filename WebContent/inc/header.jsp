@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="org.json.simple.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,49 +10,16 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript">
-	var result = "";
 	function fnMenu() {
 		$('#div_menu').animate({
 			height:'toggle'
 		});
 	}
-	function createXMLHttpRequest(){
-		  // See http://en.wikipedia.org/wiki/XMLHttpRequest
-		  // Provide the XMLHttpRequest class for IE 5.x-6.x:
-		  if( typeof XMLHttpRequest == "undefined" ) XMLHttpRequest = function() {
-		    try { return new ActiveXObject("Msxml2.XMLHTTP.6.0") } catch(e) {}
-		    try { return new ActiveXObject("Msxml2.XMLHTTP.3.0") } catch(e) {}
-		    try { return new ActiveXObject("Msxml2.XMLHTTP") } catch(e) {}
-		    try { return new ActiveXObject("Microsoft.XMLHTTP") } catch(e) {}
-		    throw new Error( "This browser does not support XMLHttpRequest." )
-		  };
-		  return new XMLHttpRequest();
-	}
-	//생성된 xhr 개체를 AJAX라는 변수에 저장
-	var AJAX = createXMLHttpRequest();
-
-	// AJAX 결과값 메인 함수
-	function handler() {
-		if(AJAX.readyState == 4 && AJAX.status == 200) {
-		    // AJAX success시 결과값 result라는 변수에 저장
-		    result = AJAX.responseText;
-		    // result값을 호출한 곳으로 돌려줌
-		    $('#search_ajax').show();
-		    $('#search_ajax').html("<a href='#' onclick='search_add();return false;'>"+result+"</a>");
-		}else if (AJAX.readyState == 4 && AJAX.status != 200) {
-			// AJAX status fail
-		  	alert('Something went wrong...');
-		}
-	}
 	function ajax_search(search) {
-		AJAX.onreadystatechange = handler;
-		AJAX.open("POST", "../bbs/checkSearch.jsp?search="+search, true);
-		AJAX.send();
-	}
-	function search_add() {
-		var result_replace = result.replace(/<.*?>^\s*|\s*$|<.*?>\r\n.*/g, '');
-		alert(result_replace);
-		$('#search').text(result_replace);
+		$.post("../bbs/checkSearch.jsp?",{"search":search},function(data){
+			$('#search_ajax').show();
+			$('#search_ajax').html(data);
+		});
 	}
 </script>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -210,11 +177,11 @@
 		<!-- 검색 -->
 		<div style="position: absolute; top: 70px; right: 0px;">
 			<div style="border: 1px solid #ddd;">
-				<form name="sform" action="" method="post">
+				<form name="sform" method="post">
 					<div style="border: 1px solid #ddd;">
 						<input type="hidden" name="sfl" value="wr_subject">
 						<input type="text" name="stx" id="search" class="select" onkeyup="ajax_search(this.value)">
-						<input type="image" src="../img/head/sea_icon01.jpg">
+						<input type="image" src="../img/head/sea_icon01.jpg" onclick="">
 					</div>
 					<div id="search_ajax"></div>
 				</form>
