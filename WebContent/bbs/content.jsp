@@ -32,7 +32,10 @@
 			if(request.getParameter("num") != null) {
 				num = Integer.parseInt(request.getParameter("num"));
 			}
-			String pageNum = request.getParameter("pageNum");
+			String pageNum = "1";
+			if(request.getParameter("pageNum") != null) {
+				pageNum = request.getParameter("pageNum");
+			}
 			//디비객체 생성 boardDAO
 			BoardDAO boardDAO = new BoardDAO();
 			// 조회수 1증가

@@ -1,3 +1,4 @@
+<%@page import="com.sun.xml.internal.txw2.Document"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="board.*, java.text.SimpleDateFormat, java.util.List" %>
@@ -39,6 +40,14 @@
 			$('#search_ajax').show();
 			$('#search_ajax').html(data);
 		});
+	}
+	function index_board_update(data) {
+		$.post("bbs/searchSubject.jsp?",{"subject":data},function(result){
+			location.href="bbs/content.jsp?num="+result;
+		});
+	}
+	function search_add(nodeValue) {
+		$('#search').val(nodeValue);
 	}
 </script>
 </head>
@@ -204,7 +213,7 @@
 					<div style="border: 1px solid #ddd;">
 						<input type="hidden" name="sfl" value="wr_subject">
 						<input type="text" name="stx" id="search" class="select" onkeyup="ajax_search(this.value)">
-						<input type="image" src="img/head/sea_icon01.jpg" onclick="">
+						<input type="image" src="img/head/sea_icon01.jpg" onclick="index_board_update(document.sform.stx.value)">
 					</div>
 					<div id="search_ajax"></div>
 				</form>
@@ -304,7 +313,7 @@
 		<div style="margin-top:30px;">
 			<!-- 게시판 시작 -->
 			<div style="float:left; border:0px solid red;">
-				<div style="float:left; widtht:163px; height:240px; background-color:#676767;">
+				<div style="float:left; widtht:163px; height:400px; background-color:#676767;">
 					<img src="img/m_title01.jpg">
 					<div style="position:relative;">
 						<div style="position:absolute; bottom:-145px; right:0px;">
@@ -325,14 +334,21 @@
 							    boardList = boardDAO.getBoards(1, 3);
 							    for(int i=0; i<boardList.size(); i++) {
 							        BoardBean boardBean = boardList.get(i);
+							        String type = "";
+									if(boardBean.getType() != null) {
+										type = boardBean.getType();
+										if(type.equals("image/jpeg") || type.equals("image/gif") || type.equals("image/png") || type.equals("image/jpg")) {
+											type = "image";
+										}
+									}
 						%>			
-							<div class="latest_01">
+							<div class="latest_01" style="height:115px;">
 								<div style="float:left;">
 									<div class="txt_mon"><%=mon.format(boardBean.getDate())%></div>
 									<div class="txt_date"><%=date.format(boardBean.getDate()) %></div>
 								</div>
 								<div class="txt_latest">
-									<div class="txt_subject">
+									<div id="subject" class="txt_subject">
 										<%
 										int wid = 0;
 										if(boardBean.getRe_lev()>0) { //답변글
@@ -347,7 +363,7 @@
 									</div>
 									<div id="content" class="txt_con">
 										<p>
-											<%=boardBean.getContent() %>
+											<%=boardBean.getContent() %> <% if(boardBean.getFile() != null && type.equals("image")) { %><img src="upload/<%=boardBean.getFile()%>"><%} %>
 										</p>
 									</div>
 								</div>

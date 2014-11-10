@@ -208,6 +208,42 @@ public class BoardDAO {
         }
 	    return boardBean;
 	}
+	public BoardBean getBoard(String subject) {
+        BoardBean boardBean = null;
+        try {
+            conn = dbConn();
+            
+            sql = "SELECT * FROM BOARD WHERE subject = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, subject);
+            
+            rs = pstmt.executeQuery();
+            
+            if(rs.next()) {
+                boardBean = new BoardBean();
+                boardBean.setNum(rs.getInt("num"));
+                boardBean.setReadcount(rs.getInt("readcount"));
+                boardBean.setName(rs.getString("name"));
+                boardBean.setDate(rs.getTimestamp("date"));
+                boardBean.setSubject(rs.getString("subject"));
+                boardBean.setContent(rs.getString("content"));
+                boardBean.setRe_lev(rs.getInt("re_lev"));
+                boardBean.setRe_ref(rs.getInt("re_ref"));
+                boardBean.setRe_seq(rs.getInt("re_seq"));
+                boardBean.setFile(rs.getString("file"));
+                boardBean.setIp(rs.getString("ip"));
+                boardBean.setPasswd(rs.getString("passwd"));
+                boardBean.setType(rs.getString("type"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs!=null) try{rs.close();}catch(SQLException ex){}
+            if(pstmt!=null) try{pstmt.close();}catch(SQLException ex){}
+            if(conn!=null) try{conn.close();}catch(SQLException ex){}
+        }
+        return boardBean;
+    }
 	public void updateReadCount(int num) {
 	    try {
             conn = dbConn();

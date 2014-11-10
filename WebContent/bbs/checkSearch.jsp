@@ -21,7 +21,7 @@
 	    rs = pstmt.executeQuery();
 	    
 	    while(rs.next()) {
-	    	out.println(rs.getString("subject")+"<br>");
+	    	out.println("<a href='javascript:;' onclick='search_add(this.firstChild.nodeValue)'>"+rs.getString("subject")+"</a>"+"<br>");
 	    }
 	    
         out.flush();

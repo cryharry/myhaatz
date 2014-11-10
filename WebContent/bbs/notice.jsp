@@ -116,7 +116,7 @@
 					// 전체 페이지수 구하기 글55 한 페이지에 보여줄 글 수 10
 					int pageCount = count/pageSize+(count%pageSize==0?0:1); // 55/10 = 5+1(나머지있을경우)
 					// 한화면에 보여줄 페이지수 설정
-					int pageBlock = 3;
+					int pageBlock = 10;
 					// 시작페이지 번호 구하기
 					int startPage = ((int)(currentPage/pageBlock)-(currentPage%pageBlock==0?1:0))*pageBlock+1; 
 					// 끝페이지 번호 구하기
