@@ -25,6 +25,7 @@ function oncheckid(id) {
 	$.post("checkId.jsp?",{"id":id},function(data){
 		$('#id_span').html(data);
 	});
+	idCheckValue = true;
 }
 
 function openDaumPostcode() {
